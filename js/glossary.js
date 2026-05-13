@@ -11,22 +11,12 @@
     currentSearch = search;
 
     let filtered = GLOSSARY_DATA;
-    if (category) {
-      filtered = filtered.filter(r => r.category === category);
-    }
+    if (category) filtered = filtered.filter(r => r.category === category);
     if (search) {
       const q = search.toLowerCase();
       filtered = filtered.filter(r =>
         r.term.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q)
       );
-    }
-    // 実装例（codeExample）がある用語を先頭に並べる
-    if (filtered.some(r => r.codeExample)) {
-      filtered = [...filtered].sort((a, b) => {
-        if (a.codeExample && !b.codeExample) return -1;
-        if (!a.codeExample && b.codeExample) return 1;
-        return 0;
-      });
     }
     buildCards(filtered);
   }
@@ -80,7 +70,7 @@
     return article;
   }
 
-  // --- Modal ---
+  // ── モーダル ──────────────────────────────────────────────────
   let modalEl = null;
 
   function buildModal() {
@@ -101,72 +91,23 @@
         <p class="modal__desc" id="modal-desc"></p>
         <p class="modal__detail-label">詳細説明</p>
         <p class="modal__detail" id="modal-detail"></p>
-        <div class="modal__code-block" id="modal-code-block">
-          <div class="modal__code-header">
-            <span class="modal__code-label">実装例</span>
-            <button class="modal__code-copy" id="modal-code-copy" aria-label="コードをコピー">コピー</button>
-          </div>
-          <pre class="modal__code-pre"><code id="modal-code-content"></code></pre>
-        </div>
-        <div class="modal__ai-block" id="modal-ai-block">
-          <p class="modal__ai-label">AIへの指示例</p>
-          <p class="modal__ai-prompt" id="modal-ai-prompt"></p>
-          <button class="modal__ai-copy" id="modal-ai-copy" aria-label="コピー">コピー</button>
-        </div>
       </div>
     `;
     document.body.appendChild(modal);
 
     modal.querySelector('.modal__overlay').addEventListener('click', closeModal);
     modal.querySelector('.modal__close').addEventListener('click', closeModal);
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModal();
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     modalEl = modal;
   }
 
   function openModal(row) {
     if (!modalEl) buildModal();
-    modalEl.querySelector('#modal-badge').textContent = row.category;
-    modalEl.querySelector('#modal-term').textContent = row.term;
-    modalEl.querySelector('#modal-desc').textContent = row.desc;
-    modalEl.querySelector('#modal-detail').textContent = row.detail;
-
-    const codeBlock = modalEl.querySelector('#modal-code-block');
-    const codeContent = modalEl.querySelector('#modal-code-content');
-    const codeCopyBtn = modalEl.querySelector('#modal-code-copy');
-    if (row.codeExample) {
-      codeContent.textContent = row.codeExample;
-      codeBlock.style.display = '';
-      codeCopyBtn.textContent = 'コピー';
-      codeCopyBtn.onclick = () => {
-        navigator.clipboard.writeText(row.codeExample).then(() => {
-          codeCopyBtn.textContent = 'コピーしました！';
-          setTimeout(() => { codeCopyBtn.textContent = 'コピー'; }, 2000);
-        });
-      };
-    } else {
-      codeBlock.style.display = 'none';
-    }
-
-    const aiBlock = modalEl.querySelector('#modal-ai-block');
-    const aiPromptEl = modalEl.querySelector('#modal-ai-prompt');
-    const aiCopyBtn = modalEl.querySelector('#modal-ai-copy');
-    if (row.aiPrompt) {
-      aiPromptEl.textContent = row.aiPrompt;
-      aiBlock.style.display = '';
-      aiCopyBtn.textContent = 'コピー';
-      aiCopyBtn.onclick = () => {
-        navigator.clipboard.writeText(row.aiPrompt).then(() => {
-          aiCopyBtn.textContent = 'コピーしました！';
-          setTimeout(() => { aiCopyBtn.textContent = 'コピー'; }, 2000);
-        });
-      };
-    } else {
-      aiBlock.style.display = 'none';
-    }
-
+    modalEl.querySelector('#modal-badge').textContent  = row.category;
+    modalEl.querySelector('#modal-term').textContent   = row.term;
+    modalEl.querySelector('#modal-desc').textContent   = row.desc;
+    modalEl.querySelector('#modal-detail').textContent = row.detail || '';
     modalEl.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
@@ -180,7 +121,6 @@
   function init() {
     const categories = [...new Set(GLOSSARY_DATA.map(r => r.category))];
 
-    // フィルターボタン生成
     const container = document.getElementById('filter-buttons');
     if (container) {
       const makeBtn = (label, cat) => {
@@ -200,7 +140,6 @@
       categories.forEach(cat => container.appendChild(makeBtn(cat, cat)));
     }
 
-    // 検索ボックス
     const searchInput = document.getElementById('search');
     if (searchInput) {
       searchInput.addEventListener('input', e => {
@@ -208,7 +147,6 @@
       });
     }
 
-    // 初期描画
     filterAndRender(null, '');
   }
 

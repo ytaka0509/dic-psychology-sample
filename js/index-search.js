@@ -2,31 +2,29 @@
   'use strict';
 
   const ALL = [
-    ...WEBAPP_DATA.map(r => Object.assign({}, r, { genre: 'Webアプリ開発' })),
-    ...PROGRAMMING_DATA.map(r => Object.assign({}, r, { genre: 'プログラミング' })),
-    ...IT_DATA.map(r => Object.assign({}, r, { genre: 'IT用語全般' })),
+    ...COGNITION_DATA.map(r => Object.assign({}, r, { genre: '認知' })),
+    ...EMOTION_DATA.map(r => Object.assign({}, r, { genre: '感情' })),
+    ...BEHAVIOR_DATA.map(r => Object.assign({}, r, { genre: '行動' })),
   ];
 
   let currentGenre    = null;
   let currentCategory = null;
   let currentSearch   = '';
 
-  const input          = document.getElementById('index-search');
-  const countEl        = document.getElementById('index-result-count');
-  const gridEl         = document.getElementById('index-result-grid');
-  const hintEl         = document.getElementById('search-hint');
-  const genreCards     = document.querySelectorAll('.genre-card[data-genre]');
-  const catContainer   = document.getElementById('index-category-buttons');
+  const input        = document.getElementById('index-search');
+  const countEl      = document.getElementById('index-result-count');
+  const gridEl       = document.getElementById('index-result-grid');
+  const hintEl       = document.getElementById('search-hint');
+  const genreCards   = document.querySelectorAll('.genre-card[data-genre]');
+  const catContainer = document.getElementById('index-category-buttons');
 
-  // ── カテゴリボタン生成 ────────────────────────────────────────
+  // ── カテゴリボタン生成 ─────────────────────────────────────────
   function buildCategoryButtons() {
     catContainer.innerHTML = '';
 
-    // 現在のジャンルに絞った用語からカテゴリ一覧を作る
     const source = currentGenre ? ALL.filter(r => r.genre === currentGenre) : ALL;
     const categories = [...new Set(source.map(r => r.category))];
 
-    // カテゴリが1種類以下なら表示しない
     if (categories.length <= 1) return;
 
     const makeBtn = (label, cat) => {
@@ -50,26 +48,13 @@
   function render() {
     let filtered = ALL;
 
-    if (currentGenre) {
-      filtered = filtered.filter(r => r.genre === currentGenre);
-    }
-    if (currentCategory) {
-      filtered = filtered.filter(r => r.category === currentCategory);
-    }
+    if (currentGenre)    filtered = filtered.filter(r => r.genre === currentGenre);
+    if (currentCategory) filtered = filtered.filter(r => r.category === currentCategory);
     if (currentSearch) {
       const q = currentSearch.toLowerCase();
       filtered = filtered.filter(r =>
         r.term.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q)
       );
-    }
-
-    // ジャンル絞り込み時のみ、実装例がある用語を先頭に並べる
-    if (currentGenre && filtered.some(r => r.codeExample)) {
-      filtered = [...filtered].sort((a, b) => {
-        if (a.codeExample && !b.codeExample) return -1;
-        if (!a.codeExample && b.codeExample) return 1;
-        return 0;
-      });
     }
 
     countEl.textContent = filtered.length + ' 件';
@@ -81,7 +66,7 @@
     } else if (currentGenre) {
       hintEl.textContent = currentGenre + ' の用語一覧';
     } else {
-      hintEl.textContent = 'ジャンルカードをクリックして絞り込めます';
+      hintEl.textContent = 'カテゴリカードをクリックして絞り込めます';
     }
 
     gridEl.innerHTML = '';
@@ -153,27 +138,13 @@
         <p class="modal__desc" id="modal-desc"></p>
         <p class="modal__detail-label">詳細説明</p>
         <p class="modal__detail" id="modal-detail"></p>
-        <div class="modal__code-block" id="modal-code-block">
-          <div class="modal__code-header">
-            <span class="modal__code-label">実装例</span>
-            <button class="modal__code-copy" id="modal-code-copy" aria-label="コードをコピー">コピー</button>
-          </div>
-          <pre class="modal__code-pre"><code id="modal-code-content"></code></pre>
-        </div>
-        <div class="modal__ai-block" id="modal-ai-block">
-          <p class="modal__ai-label">AIへの指示例</p>
-          <p class="modal__ai-prompt" id="modal-ai-prompt"></p>
-          <button class="modal__ai-copy" id="modal-ai-copy" aria-label="コピー">コピー</button>
-        </div>
       </div>
     `;
     document.body.appendChild(modal);
 
     modal.querySelector('.modal__overlay').addEventListener('click', closeModal);
     modal.querySelector('.modal__close').addEventListener('click', closeModal);
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModal();
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     modalEl = modal;
   }
@@ -183,42 +154,7 @@
     modalEl.querySelector('#modal-badge').textContent  = row.category;
     modalEl.querySelector('#modal-term').textContent   = row.term;
     modalEl.querySelector('#modal-desc').textContent   = row.desc;
-    modalEl.querySelector('#modal-detail').textContent = row.detail;
-
-    const codeBlock   = modalEl.querySelector('#modal-code-block');
-    const codeContent = modalEl.querySelector('#modal-code-content');
-    const codeCopyBtn = modalEl.querySelector('#modal-code-copy');
-    if (row.codeExample) {
-      codeContent.textContent = row.codeExample;
-      codeBlock.style.display = '';
-      codeCopyBtn.textContent = 'コピー';
-      codeCopyBtn.onclick = () => {
-        navigator.clipboard.writeText(row.codeExample).then(() => {
-          codeCopyBtn.textContent = 'コピーしました！';
-          setTimeout(() => { codeCopyBtn.textContent = 'コピー'; }, 2000);
-        });
-      };
-    } else {
-      codeBlock.style.display = 'none';
-    }
-
-    const aiBlock    = modalEl.querySelector('#modal-ai-block');
-    const aiPromptEl = modalEl.querySelector('#modal-ai-prompt');
-    const aiCopyBtn  = modalEl.querySelector('#modal-ai-copy');
-    if (row.aiPrompt) {
-      aiPromptEl.textContent = row.aiPrompt;
-      aiBlock.style.display  = '';
-      aiCopyBtn.textContent  = 'コピー';
-      aiCopyBtn.onclick = () => {
-        navigator.clipboard.writeText(row.aiPrompt).then(() => {
-          aiCopyBtn.textContent = 'コピーしました！';
-          setTimeout(() => { aiCopyBtn.textContent = 'コピー'; }, 2000);
-        });
-      };
-    } else {
-      aiBlock.style.display = 'none';
-    }
-
+    modalEl.querySelector('#modal-detail').textContent = row.detail || '';
     modalEl.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
@@ -242,7 +178,6 @@
         genreCards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
       }
-      // ジャンルが変わったらカテゴリをリセット
       currentCategory = null;
       buildCategoryButtons();
       render();
@@ -254,7 +189,7 @@
     render();
   });
 
-  // 初期表示：全件をWebアプリ開発→プログラミング関連→IT用語全般の順で表示
+  // 初期表示：全件表示（認知→感情→行動の順）
   buildCategoryButtons();
   render();
 })();

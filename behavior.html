@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>心理学用語集 | 行動（Behavior）</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-behavior">
+  <header>
+    <div class="header-inner">
+      <a class="site-title" href="index.html">心理学用語集</a>
+      <nav>
+        <a href="index.html">トップ</a>
+        <a href="cognition.html">認知</a>
+        <a href="emotion.html">感情</a>
+        <a href="behavior.html" class="active">行動</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-heading">
+    <div class="page-heading-inner">
+      <div class="page-heading__left">
+        <p class="page-heading__kicker">Category 03 — Behavior</p>
+        <h1>🌱 行動（Behavior）</h1>
+        <p class="page-heading__sub">行動心理・条件づけ・習慣形成・社会心理・コミュニケーション・行動変容 — 50件</p>
+      </div>
+      <div class="page-heading__search">
+        <div class="search-wrap">
+          <input type="search" id="search" placeholder="用語を検索">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div id="filter-buttons"></div>
+
+    <div class="result-bar">
+      <span id="result-count"></span>
+    </div>
+
+    <div id="card-grid"></div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">心理学用語集</span>
+      <p>Psychology Glossary — 学習用途限定</p>
+    </div>
+  </footer>
+
+  <script src="data/behavior-data.js"></script>
+  <script>const GLOSSARY_DATA = BEHAVIOR_DATA;</script>
+  <script src="js/glossary.js"></script>
+</body>
+</html>

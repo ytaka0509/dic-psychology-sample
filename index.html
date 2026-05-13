@@ -3,33 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>用語集 | AI開発における用語集</title>
+  <title>心理学用語集</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header>
     <div class="header-inner">
-      <a class="site-title" href="index.html">用語集</a>
+      <a class="site-title" href="index.html">心理学用語集</a>
       <nav>
         <a href="index.html" class="active">トップ</a>
-        <a href="webapp.html">Webアプリ</a>
-        <a href="it.html">IT用語</a>
-        <a href="programming.html">プログラミング</a>
+        <a href="cognition.html">認知</a>
+        <a href="emotion.html">感情</a>
+        <a href="behavior.html">行動</a>
       </nav>
     </div>
   </header>
 
   <section class="page-intro">
     <div class="page-intro-inner">
-      <p class="page-intro__eyebrow">Glossary</p>
-      <h1>AI開発における用語集</h1>
-      <p class="page-intro__desc">Webアプリ・IT・プログラミングの専門用語をカテゴリ別・検索で素早く調べられます。AIへの指示例や実装例も確認できます。</p>
+      <p class="page-intro__eyebrow">Psychology Glossary</p>
+      <h1>心理学用語集</h1>
+      <p class="page-intro__desc">認知・感情・行動の3カテゴリで心理学の重要概念を解説。</p>
 
       <div class="intro-search">
         <div class="search-wrap">
-          <input type="search" id="index-search" placeholder="全用語から横断検索...">
+          <input type="search" id="index-search" placeholder="用語を検索">
         </div>
-        <p class="intro-search__hint" id="search-hint">ジャンルを選ぶか、キーワードで横断検索できます</p>
+        <p class="intro-search__hint" id="search-hint">カテゴリを選ぶか、キーワードで横断検索できます</p>
+      </div>
+
+      <div class="page-intro__stats">
+        <div class="stat">
+          <span class="stat__num">3</span>
+          <span class="stat__label">カテゴリ</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num">160<span style="font-size:0.875rem;font-weight:500">+</span></span>
+          <span class="stat__label">収録用語数</span>
+        </div>
       </div>
     </div>
   </section>
@@ -37,29 +51,35 @@
   <main>
     <div id="genre-section">
       <div class="genre-grid">
-        <a href="webapp.html" class="genre-card" data-genre="Webアプリ開発">
-          <h2 class="genre-card__name">Webアプリ開発</h2>
-          <p class="genre-card__desc">UIパーツ・フォーム・レイアウト設計・状態管理・UX概念など、Webアプリ開発に関わる用語を網羅。</p>
+        <a href="cognition.html" class="genre-card" data-genre="認知">
+          <div class="genre-card__icon">🧠</div>
+          <p class="genre-card__en">Cognition</p>
+          <h2 class="genre-card__name">認知</h2>
+          <p class="genre-card__desc">バイアス・記憶・判断・意思決定・注意・知覚など、「どう考えるか・どう理解するか」を扱う用語。ビジネスやAI・UXにも直結します。</p>
           <div class="genre-card__footer">
-            <span class="genre-card__count">127 件</span>
+            <span class="genre-card__count">58 件</span>
             <span class="genre-card__arrow">→</span>
           </div>
         </a>
 
-        <a href="programming.html" class="genre-card" data-genre="プログラミング">
-          <h2 class="genre-card__name">プログラミング関連</h2>
-          <p class="genre-card__desc">基本概念・オブジェクト指向・データベース・非同期処理など、プログラミング全般の用語を収録。</p>
+        <a href="emotion.html" class="genre-card" data-genre="感情">
+          <div class="genre-card__icon">💚</div>
+          <p class="genre-card__en">Emotion</p>
+          <h2 class="genre-card__name">感情</h2>
+          <p class="genre-card__desc">ストレス・モチベーション・不安・幸福感など、「どう感じるか・心の動き」を扱う用語。メンタル・ライフスタイルと相性抜群です。</p>
           <div class="genre-card__footer">
-            <span class="genre-card__count">120 件</span>
+            <span class="genre-card__count">52 件</span>
             <span class="genre-card__arrow">→</span>
           </div>
         </a>
 
-        <a href="it.html" class="genre-card" data-genre="IT用語全般">
-          <h2 class="genre-card__name">IT用語全般</h2>
-          <p class="genre-card__desc">インフラ・ネットワーク・セキュリティ・クラウド・開発手法など、IT全般の基礎用語を収録。</p>
+        <a href="behavior.html" class="genre-card" data-genre="行動">
+          <div class="genre-card__icon">🌱</div>
+          <p class="genre-card__en">Behavior</p>
+          <h2 class="genre-card__name">行動</h2>
+          <p class="genre-card__desc">習慣形成・社会心理・条件づけ・コミュニケーションなど、「どう行動するか・習慣や対人関係」を扱う用語。実践・行動改善に直結します。</p>
           <div class="genre-card__footer">
-            <span class="genre-card__count">112 件</span>
+            <span class="genre-card__count">50 件</span>
             <span class="genre-card__arrow">→</span>
           </div>
         </a>
@@ -78,14 +98,14 @@
 
   <footer>
     <div class="footer-inner">
-      <span class="footer-brand">用語集</span>
-      <p>&copy; <a href="https://www.sejuku.net/corp/" target="_blank" rel="noopener noreferrer">株式会社SAMURAI</a></p>
+      <span class="footer-brand">心理学用語集</span>
+      <p>Psychology Glossary — 学習用途限定</p>
     </div>
   </footer>
 
-  <script src="data/webapp-data.js"></script>
-  <script src="data/it-data.js"></script>
-  <script src="data/programming-data.js"></script>
+  <script src="data/cognition-data.js"></script>
+  <script src="data/emotion-data.js"></script>
+  <script src="data/behavior-data.js"></script>
   <script src="js/index-search.js"></script>
 </body>
 </html>
